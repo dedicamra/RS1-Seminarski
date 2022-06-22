@@ -1,0 +1,55 @@
+﻿@model WebApplication1.Models.Menadzer.VoziloUrediVM;
+@{
+    Layout = null;
+}
+
+<form asp-action="VoziloSnimi" asp-controller="Menadzer">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Uredi</h1>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input hidden readonly asp-for="VoziloID" />
+                </div>
+                <div>
+                    <label>Oznaka vozila</label>
+                    <input asp-for="OznakaVozila" />
+                </div>
+                <div>
+                    <label>Registracijski broj</label>
+                    <input asp-for="RegistracijskiBroj" />
+                </div>
+                <div>
+                    <label>Max broj sjedista</label>
+                    <input asp-for="MaxBrojSjedista" />
+                </div>
+                <div>
+                    <label>Datum zadnjeg servisa</label>
+                    <input id="datepicker" type="date" asp-for="DatumZadnjegServisa" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" value="Odustani" onClick="document.location.reload(true)">
+                <input type="submit" name="Snimi" value="Sačuvaj" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.js">
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#datepicker").datepicker({
+                format: 'dd/mm/yyyy'
+            })
+        });
+    </script>
+}

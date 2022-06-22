@@ -1,0 +1,65 @@
+﻿@model WebApplication1.Models.Menadzer.VoziloPrikazVM
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikaz"
+        onclick="VoziloUredi(0)">
+    Dodaj novo vozilo
+</button>
+
+<form style="margin:20px 0px">
+    <input name="pretraga" value="@Model.pretraga" />
+    <input type="submit" value="Pretraga po registracijskom broju" />
+</form>
+
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Oznaka vozila</th>
+            <th>Registracijski Broj</th>
+            <th>Max broj sjedista</th>
+            <th>Datum zadnjeg servisa</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var v in Model.Vozila)
+        {
+            <tr>
+                <td>@v.OznakaVozila</td>
+                <td>@v.RegistracijskiBroj</td>
+                <td>@v.MaxBrojSjedista</td>
+                <td>@v.DatumZadnjegServisa</td>
+                <td>
+                    <button type="button" , class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikaz"
+                            onclick="VoziloUredi(@v.VoziloID)">
+                        Uredi
+                    </button>
+                    
+                    <a class="btn btn-warning" href="/Menadzer/VoziloObrisi?VoziloID=@v.VoziloID">Obrisi</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<div class="modal fade" id="ajaxPrikaz" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+</div>
+
+<script>
+  
+    function VoziloUredi(VoziloID) {
+        if (VoziloID == 0) {
+            $.get("/Menadzer/VoziloUredi", function (data) {
+                $("#ajaxPrikaz").html(data);
+
+            })
+        }
+        else {
+            $.get("/Menadzer/VoziloUredi?VoziloID=" + VoziloID, function (data) {
+                $("#ajaxPrikaz").html(data);
+            });
+        }
+    }
+
+</script>

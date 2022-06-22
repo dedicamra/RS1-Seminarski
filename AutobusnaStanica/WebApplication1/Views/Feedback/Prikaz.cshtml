@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model WebApplication1.Models.Feedback.FeedbackPrikazVM
+
+<button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#ajaxDodaj"
+        onclick="DodajFeedback()" style="margin-bottom:10px">
+    Ostavi komentar
+</button>
+
+<div class="modal fade" id="ajaxDodaj" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+</div>
+<div style="margin-bottom:10px">
+
+    <button class="btn btn-primary" style="width:50%" onclick="ucitajKomentare(0)">Svi komentari</button>
+    <button class="btn btn-primary" style="width:49%;" onclick="ucitajKomentare(1)">Moji komentari</button>
+</div>
+
+<div id="ajaxPrikaz"></div>
+
+<script>
+    function DodajFeedback(id) {
+        var url = "/Feedback/DodajFeedback?id="+id;
+        $.get(url, function (data) {
+            $("#ajaxDodaj").html(data);
+        });
+    }
+    function ucitajKomentare(moje) {
+        var url = "/Feedback/GetFeedbacks?moje=" + moje;
+        $.get(url, function (data) {
+            $("#ajaxPrikaz").html(data);
+        });
+    }
+    ucitajKomentare();
+
+
+</script>

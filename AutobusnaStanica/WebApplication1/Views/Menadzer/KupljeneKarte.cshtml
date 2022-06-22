@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "KupljeneKarte";
+}
+@model WebApplication1.Models.Menadzer.KupljeneKarteVM
+<h1>Pregled karata</h1>
+<br />
+<h3>Pretraga</h3>
+
+<form>
+
+    <label class="font-weight-bold">Tip karte</label>
+    <select name="tipKarte" asp-for="TipKarteId" asp-items="@Model.listTipKarte" style="margin-right:10px"></select>
+
+    <label class="font-weight-bold">Datum polaska</label>
+    <input asp-for="DatumPolaska" type="date" name="dtmPolaska" style="margin-right:10px" />
+    <label class="font-weight-bold">Datum kupovine</label>
+    <input asp-for="DatumKupovine" type="date" name="dtmKupovine" style="margin-right:10px" />
+
+    <label class="font-weight-bold">Status</label>
+    <select name="filterAktivne" style="margin-right:10px">
+        <option>Aktivne</option>
+        <option>Neaktivne</option>
+    </select>
+    <input type="submit" class="btn btn-secondary" value="Trazi" />
+</form>
+<br />
+
+<table class="table table-bordered">
+    <thead style="background-color:whitesmoke">
+        <tr>
+            <td>Tip karte</td>
+            <td>Vrsta Popusta</td>
+            <td>Od-do</td>
+            <td>Od-do</td>
+            <td>Linija</td>
+            <td>Datum Kupovine</td>
+            <td>Cijena</td>
+            @*<td>Akcija</td>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var k in Model.redovi)
+        {
+            <tr>
+                <td>@k.TipKarte</td>
+                <td>@k.VrstaPopusta</td>
+                <td>
+                    @k.PolazisteNaziv-@k.DolazisteNaziv<br />
+                    @if (k.DatumDolaska != null)
+                    {
+                        @k.DolazisteNaziv<span>-</span>@k.PolazisteNaziv
+                    }
+                </td>
+                <td>@k.DatumPolaska<br />@k.DatumDolaska</td>
+                <td style="width:18%">@k.OznakaLinije</td>
+                <td>@k.DatumKupovineKarte</td>
+                <td>@k.Cijena KM</td>
+                @*<td>
+                    @if (k.IsAktivna)
+                    {
+                        <a class="btn btn-danger" href="#">Otkazi</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" href="#">Obrisi iz historije</a>
+                    }
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>

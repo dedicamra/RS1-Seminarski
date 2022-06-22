@@ -1,0 +1,103 @@
+﻿@model WebApplication1.Models.Linija.LinijaPrikazVM
+@*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikaz"
+            onclick="LinijaUredi()">
+        Dodaj novu liniju
+    </button>*@
+<div>
+    <a class="btn btn-outline-secondary" asp-controller="Izvjestaj" asp-action="RedVoznje"><i class="far fa-file-pdf"></i> Red voznje</a>
+    <a class="btn btn-primary" style="float:right" href="/Linija/LinijaUredi">Dodaj novu liniju</a>
+</div>
+
+<form style="margin:20px 0px">
+    <input name="pretraga" value="@Model.pretraga" />
+    <input type="submit" value="Pretraga" />
+</form>
+
+<table id="tabela" class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Oznaka</th>
+            <th>Grad polaska</th>
+            <th>Grad dolaska</th>
+            <th>Vrijeme polaska</th>
+            <th>Vrijeme dolaska</th>
+            <th>Stajalista</th>
+            @*<th>Ponedjeljak</th>
+            <th>Utorak</th>
+            <th>Srijeda</th>
+            <th>Cetvrtak</th>
+            <th>Petak</th>
+            <th>Subota</th>
+            <th>Nedjelja</th>*@
+            <th>Akcije</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var l in Model.Linije)
+        {
+            <tr>
+                <td>@l.OznakaLinije</td>
+                <td>@l.GradPolaska</td>
+                <td>@l.GradDolaska</td>
+                <td>@l.VrijemePolaska</td>
+                <td>@l.VrijemeDolaska</td>
+                <td><a class="btn btn-info" href="/Linija/StajalistaPrikaz?LinijaID=@l.LinijaID">Stajalista</a></td>
+                @*<td>@l.Ponedjeljak</td>
+                <td>@l.Utorak</td>
+                <td>@l.Srijeda</td>
+                <td>@l.Cetvrtak</td>
+                <td>@l.Petak</td>
+                <td>@l.Subota</td>
+                <td>@l.Nedjelja</td>*@
+
+                <td>
+                    @*<button type="button" , class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikaz"
+                                onclick="LinijaUredi(@l.LinijaID)">
+                            Uredi
+                        </button>*@
+                    <a class="btn btn-primary" href="/Linija/LinijaUredi?LinijaID=@l.LinijaID">Uredi</a>
+                    <a class="btn btn-success" href="/Menadzer/LinijaVozacPrikaz?LinijaID=@l.LinijaID">Vozaci</a>
+                    <a class="btn btn-warning" href="/Linija/LinijaObrisi?LinijaID=@l.LinijaID">Obrisi</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<div class="modal fade" id="ajaxPrikaz" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+</div>
+
+<script>
+
+    function LinijaUredi(LinijaID) {
+        if (LinijaID == 0) {
+            $.get("/Linija/LinijaUredi", function (data) {
+                $("#ajaxPrikaz").html(data);
+
+            })
+        }
+        else {
+            $.get("/Linija/LinijaUredi?LinijaID=" + LinijaID, function (data) {
+                $("#ajaxPrikaz").html(data);
+            });
+        }
+    }
+
+    function Dani(linija) {
+
+        //var daniKojimVozi = "";
+        //if (linija.Ponedjeljak) daniKojimVozi += "Ponedjeljak ";
+        //if (linija.Utorak) daniKojimVozi += "Utorak ";
+        //if (linija.Srijeda) daniKojimVozi += "Srijeda ";
+        //if (linija.Cetvrtak) daniKojimVozi += "Cetvrtak ";
+        //if (linija.Petak) daniKojimVozi += "Petak ";
+        //if (linija.Subota) daniKojimVozi += "Subota ";
+        //if (linija.Nedjelja) daniKojimVozi += "Nedjelja";
+
+        //document.getElementById("tabela").innerHTML=`<td>daniKojimVozi<td>`
+    }
+
+</script>

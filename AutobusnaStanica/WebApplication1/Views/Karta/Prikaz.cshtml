@@ -1,0 +1,225 @@
+﻿@{
+    var brojac = 0;
+}
+@model WebApplication1.Models.Karta.KartaPrikazVM
+
+<form asp-action="Uredi" asp-controller="Karta" style="display:inline" onsubmit="return validateFormSearch()"
+      name="myFormSearch" method="post">
+    <div class="card ">
+        <div class="card-header">
+            <div>
+                <div>
+                    <label class="font-weight-bold">Tip Karte</label>
+                    <select id="izbor" asp-for="TipKarteID" asp-items="@Model.TipKarte" name="TipKarteID"></select>
+                </div>
+                <div style="display:inline">
+                    <label class="font-weight-bold">Polazište</label>
+                    <select asp-for="PolazisteID" asp-items="@Model.Polaziste" style="margin-right:10px"></select>
+
+                    <label class="font-weight-bold">Dolazište</label>
+                    <select asp-for="DolazisteID" asp-items="@Model.Dolaziste" style="margin-right:10px"></select>
+
+                    <label class="font-weight-bold">Datum Polaska</label>
+                    <input id="datP" type="date" asp-for="DatumPolaska" name="DatumPolaska" min="@DateTime.Now.Date" style="margin-right:10px" />
+
+                    <label id="datN" style="display:none" class="font-weight-bold">Datum Dolaska</label>
+                    <input id="dat" type="date" style="display:none" asp-for="DatumDolaska" name="DatumDolaska" />
+                    <input type="submit" class="btn btn-primary" value="Traži" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="porukaTrazi">
+        Odabrani datum nije ispravan!
+    </div>
+</form>
+@if (Model.polazni != null)
+{
+<div style="margin:30px 0 0 0">
+    <h3>Polazni autobusi</h3>
+    @foreach (var k in Model.polazni)
+    {
+        <div class="card" style="width:47%">
+            <p class="card-header text-center" style="background-color:rgba(251, 255, 125,0.3); ">Linija: @k.ImeLinije</p>
+            <div class="card-body" style="background-color:white; ">
+                <div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="card-text font-weight-bold">@k.VrijemePolaska ----------------- @k.VrijemeDolaska</p>
+                            <p style="width:12px;display:inline" class="card-text font-weight-bold">@k.PolazisteNaziv</p>
+                            <p style="width:12px;display:inline;margin-left:85px;" class="card-text font-weight-bold">@k.DolazisteNaziv</p>
+                        </div>
+                        <div class="col">
+                            <p class="font-weight-bold">Stajališta i satnice:</p>
+                            <p class="card-text">@k.Stajalista</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="card-text text-center" style="margin-top:30px;font-size:14px;">Slobodnih mjesta: @k.SlobodnihMjesta</p>
+            </div>
+        </div>
+    }
+</div>
+}
+else
+{
+    <div>
+        <label>Nema rezultata pretrage</label>
+    </div>
+}
+@if (Model.dolazni != null && Model.TipKarteID == 2)
+{
+    <h3>Povratni autobusi</h3>
+    @foreach (var k in Model.dolazni)
+    {
+        <div class="card" style="width:47%">
+            <p class="card-header text-center" style="background-color:rgba(251, 255, 125,0.3); ">Linija: @k.ImeLinije</p>
+            <div class="card-body" style="background-color:white; ">
+                <div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="card-text font-weight-bold">@k.VrijemePolaska ----------------- @k.VrijemeDolaska</p>
+                            <p style="width:12px;display:inline" class="card-text font-weight-bold">@k.PolazisteNaziv</p>
+                            <p style="width:12px;display:inline;margin-left:85px;" class="card-text font-weight-bold">@k.DolazisteNaziv</p>
+                        </div>
+                        <div class="col">
+                            <p class="font-weight-bold">Stajališta i satnice:</p>
+                            <p class="card-text">@k.Stajalista</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="card-text text-center" style="margin-top:30px;font-size:14px;">Slobodnih mjesta: @k.SlobodnihMjesta</p>
+            </div>
+        </div>
+    }
+}
+@if (Model.polazni != null)
+{
+    <div style=" padding:10px; margin:30px 0;">
+        <form asp-action="Kupovina" asp-controller="Karta" onsubmit="return validateForm()" name="myForm" method="post">
+            <input hidden asp-for="TipKarteID" />
+            <input hidden asp-for="PolazisteID" />
+            <input hidden asp-for="DolazisteID" />
+            <input hidden asp-for="DatumPolaska" />
+            <input hidden asp-for="DatumDolaska" />
+            <input hidden asp-for="OznakaLinije" />
+
+            <div class="card text-center">
+                <div class="card-header">
+                    <div>
+                        <label class=" font-weight-bold">Linija Polazište</label>
+                        <select asp-for="LinijaPolazisteID" asp-items="@Model.LinijaPolaziste"></select>
+                        @if (Model.TipKarteID == 2)
+                        {
+                            <label class=" font-weight-bold">Linija Dolazište</label>
+                            <select asp-for="LinijaDolazisteID" asp-items="@Model.LinijaDolaziste"></select>
+                        }
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div>
+                        @foreach (var p in Model.popusti)
+                        {
+                            <label>@p</label>
+                            <input class="inputValidacije" type="number" min="0" max="5" asp-for="kolicina[brojac]" />
+                            brojac++;
+                        }
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="poruka">
+                        Niste unijeli sve potrebne vrijednosti!
+                    </div>
+                    <input class="btn btn-warning" type="submit" value="Kupi" onclick="validateForm()" />
+                </div>
+            </div>
+        </form>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $("#izbor").on("change", function () {
+            if (this.value == '2') {
+                $("#datN").show();
+                $("#dat").show();
+            }
+            else {
+                $("#datN").hide();
+                $("#dat").hide();
+            }
+        });
+        var tip = document.forms["myFormSearch"]["TipKarteID"].value;
+
+        if (tip == 2) {
+            $("#datN").show();
+            $("#dat").show();
+        }
+
+        $("#datP").focusout(function () {
+            if (this.value != null || this.value != "")
+                document.getElementById("porukaTrazi").style.display = "none";
+        });
+        $("#dat").focusout(function () {
+            if (this.value != null || this.value != "")
+                document.getElementById("porukaTrazi").style.display = "none";
+        });
+        var now = new Date();
+
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+        //$('#datP').val(today);
+        $('#datP').attr('min', today);
+        $('#dat').attr('min', today);
+    });
+    function validateForm() {
+        var e = 0;
+        var tip = document.forms["myFormSearch"]["TipKarteID"].value;
+
+        $('.inputValidacije').each(function () {
+            if (parseInt($(this).val()) > 0) {
+                e++;
+            }
+        });
+
+        if (e > 0) {
+            if (tip == 2) {
+                var d = document.forms["myFormSearch"]["DatumDolaska"].value;
+                if (d == "" || d == null) {
+                    document.getElementById("porukaTrazi").style.display = "block";
+                    return false;
+                }
+            }
+            document.getElementById("poruka").style.display = "none";
+            return true;
+        }
+        else {
+            document.getElementById("poruka").style.display = "block";
+            return false;
+        }
+    }
+    function validateFormSearch() {
+        var dP = document.forms["myFormSearch"]["DatumPolaska"].value;
+        var dD = document.forms["myFormSearch"]["DatumDolaska"].value;
+        var tip = document.forms["myFormSearch"]["TipKarteID"].value;
+
+        var date1 = new Date(dP);
+        var date2 = new Date(dD);
+
+        if (tip == 2) {
+            if ((dP == null || dP == "") || (dD == null || dD == 0) || (date1 >= date2)) {
+                document.getElementById("porukaTrazi").style.display = "block";
+                return false;
+            }
+        }
+        if (tip == 1) {
+            if ((dP == null || dP == "")) {
+                document.getElementById("porukaTrazi").style.display = "block";
+                return false;
+            }
+        }
+    }
+
+</script>

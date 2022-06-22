@@ -1,0 +1,74 @@
+﻿@model WebApplication1.Models.Linija.DrzavaPrikazVM 
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikazDrzava"
+            onclick="DrzavaUredi(0)">
+        Dodaj
+    </button>
+@*<button type="button" onclick="PrikazDodaj()" class="btn btn-primary" style="margin-bottom:10px">Dodaj</button>*@
+<form>
+    <input name="pretraga" value="@Model.pretraga"/>
+    <input type="submit" value="Trazi" />
+</form>
+@*<div id="ajaxPrikaz" ></div>*@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Naziv</th>
+            <th>Akcija</th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var d in Model.Drzave)
+        {
+            <tr>
+                <td>@d.Naziv</td>
+                <td>
+                <button type="button", class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikazDrzava"
+                            onclick="DrzavaUredi(@d.DrzavaID)">Uredi</button>
+                @*<a href="#" onclick="PrikazUredi(@d.DrzavaID)">Uredi</a>*@
+                <a class="btn btn-warning" href="/Linija/DrzavaObrisi?DrzavaID=@d.DrzavaID">Obrisi</a></td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<div class="modal fade" id="ajaxPrikazDrzava" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+</div>
+
+<script>
+    //function PrikazUredi(DrzavaID) {
+    //    var url = "/Drzava/Uredi?DrzavaID=" + DrzavaID;
+    //    $.get(url, function (data) {
+    //        $("#ajaxPrikaz").html(data);
+    //    })
+    //    document.getElementById("ajaxPrikaz").style.margin = "10px";
+        
+    //}
+    //function PrikazDodaj() {
+    //    var url = "/Drzava/Uredi";
+    //    $.get(url, function (data) {
+    //        $("#ajaxPrikaz").html(data);
+    //    })
+    //    document.getElementById("ajaxPrikaz").style.margin = "10px";
+       
+
+    //}
+
+    function DrzavaUredi(DrzavaID) {
+        if (DrzavaID == 0) {
+            $.get("/Linija/DrzavaUredi", function (data) {
+                $("#ajaxPrikazDrzava").html(data);
+            })
+        }
+        else {
+            $.get("/Linija/DrzavaUredi?DrzavaID=" + DrzavaID, function (data) {
+                $("#ajaxPrikazDrzava").html(data);
+            });
+        }
+    }
+
+</script>

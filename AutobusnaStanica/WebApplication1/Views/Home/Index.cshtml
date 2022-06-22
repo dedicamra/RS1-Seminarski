@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var brojac = 0;
+}
+@using WebApplication1.Helper
+<div class="text-center">
+    <h1 class="display-4">Dobro došli</h1>
+    @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
+    @*<p>Pretragu željenih destinacija možete započeti klikom na "Kupi kartu".</p>*@
+</div>
+
+@model WebApplication1.Models.Menadzer.ObavijestPrikazVM
+@if (Context.GetLogiraniKorisnik() != null && !Context.ProvjeriKorisnika(Context.GetLogiraniKorisnik().Id))
+{
+    <div class="container" style="margin-top:10%">
+        <div class="row">
+            @foreach (WebApplication1.Models.Menadzer.ObavijestPrikazVM.Row o in Model.obavijesti)
+            {
+                @if (brojac == 3)
+                {
+                    <div class="w-100"></div>
+                    brojac = 0;
+                }
+                else
+                {
+                    brojac++;
+                }
+                <div class="card col" style="width: 18rem; margin:10px;">
+                    <img src="@o.Slika" class="card-img-top" style="height:200px; width:auto;" alt="...">
+                    <div class="card-body">
+                        <h3 class="card-title">@o.Naslov</h3>
+                        <h4 class="card-title">@o.Podnaslov</h4>
+                        <h5 class="card-title font-italic" style="font-size:14px;">@o.ObavijestKategorija</h5>
+                        <p class="card-text">@o.Opis</p>
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikaz"
+                                    onclick="OtvoriDetaljeObavijesti(@o.ObavijestID)">
+                                Detalji
+                            </button>
+                        </div>
+                        <p class="card-title font-italic text-center" style="font-size:14px;margin-top:10px;">@o.DatumObjave</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="modal fade" id="ajaxPrikaz" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
+}
+<script>
+    function OtvoriDetaljeObavijesti(ObavijestID) {
+        $.get("/Home/ObavijestDetalji?ObavijestID=" + ObavijestID, function (d) {
+            $("#ajaxPrikaz").html(d);
+        });
+    }
+</script>

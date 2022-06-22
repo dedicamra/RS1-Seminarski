@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+@model WebApplication1.Models.Feedback.FeedbackDodajVM
+
+<form asp-action="FeedbackSnimi" asp-controller="Feedback">
+
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Ostavite komentar</h5><br />
+                <h5>Korisnik: @Model.KorisnikImePrezime</h5>
+                <input asp-for="Id" hidden />
+            </div>
+            <div class="modal-body">
+                         
+                <div>
+                    <label>Sadrzaj:</label>
+                
+                    <textarea asp-for="Sadrzaj" class="form-control" aria-label="With textarea"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" value="Odustani" onClick="document.location.reload(true)">
+                <input type="submit" name="Snimi" value="Sačuvaj" />
+            </div>
+        </div>
+    </div>
+</form>

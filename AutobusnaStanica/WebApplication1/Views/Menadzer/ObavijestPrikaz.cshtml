@@ -1,0 +1,40 @@
+﻿
+@{
+    int brojac=0;
+    ViewData["Title"] = "Prikaz";
+}
+
+@model WebApplication1.Models.Menadzer.ObavijestPrikazVM
+<a class="btn btn-primary" href="/Menadzer/ObavijestUredi">Dodaj</a>
+<div class="container">
+    <div class="row">
+        @foreach (WebApplication1.Models.Menadzer.ObavijestPrikazVM.Row o in Model.obavijesti)
+        {
+            @if (brojac == 3)
+            {
+                <div class="w-100"></div>
+                brojac = 0;
+            }
+            else
+            {
+                brojac++;
+            }
+            <div class="card col" style="width: 18rem; margin:10px;">
+                <img src="@o.Slika" class="card-img-top" style="height:280px; width:auto;" alt="...">
+                <div class="card-body">
+                    <h3 class="card-title">@o.Naslov</h3>
+                    <h4 class="card-title">@o.Podnaslov</h4>
+                    <h5 class="card-title font-italic" style="font-size:14px;">@o.ObavijestKategorija</h5>
+                    <p class="card-text">@o.Opis</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="/Menadzer/ObavijestObrisi?ObavijestID=@o.ObavijestID" class="btn btn-outline-warning">Obrisi</a>
+                        <a href="/Menadzer/ObavijestUredi?ObavijestID=@o.ObavijestID" class="btn btn-outline-primary">Uredi</a>
+                    </div>
+                    <p class="card-title font-italic text-center" style="font-size:14px;margin-top:10px;">@o.DatumObjave</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

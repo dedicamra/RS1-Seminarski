@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "Prikaz";
+}
+@model List<WebApplication1.Models.TipKarte.TipKartePrikazVM>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikaz" 
+        onclick="OtvoriTipKarteUredi()">Dodaj</button>
+
+<table class="table table-bordered" style="margin-top:15px">
+    <thead style="background-color:whitesmoke">
+        <tr>
+            <td>Naziv</td>
+            <td>Akcija</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.Naziv</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#ajaxPrikaz" 
+                            onclick="OtvoriTipKarteUredi(@t.TipKarteID)">Uredi</button>
+                    <a class="btn btn-outline-warning" href="/Menadzer/TipKarteObrisi?TipKarteID=@t.TipKarteID">Obrisi</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="ajaxPrikaz" tabindex="-1" role="dialog" 
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
+<script>
+    function OtvoriTipKarteUredi(TipKarteID) {
+        if (TipKarteID == 0) {
+            $.get("/Menadzer/TipKarteUredi", function (d) {
+                $("#ajaxPrikaz").html(d);
+            });
+        }
+        else {
+            $.get("/Menadzer/TipKarteUredi?TipKarteID=" + TipKarteID, function (d) {
+                $("#ajaxPrikaz").html(d);
+            });
+        }
+    }
+</script>
+

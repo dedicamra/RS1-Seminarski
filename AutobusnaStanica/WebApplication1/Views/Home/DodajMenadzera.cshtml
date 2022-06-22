@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewData["Title"] = "DodajMenadzera";
+}
+
+<h3>Dodaj Menadzera</h3>
+<div style="margin:10px 0 20px 0">Vas mail ce biti formiran na nacin: <label class="font-weight-bold">ime.prezime@edu.fit.ba</label></div>
+<form asp-action="Snimi" asp-controller="Home" onsubmit="return validateForm()" name="myForm" method="post">
+    <div class="container" style="width:400px">
+        <div class="row">
+            <div class="col h5">
+                Ime
+            </div>
+            <div class="col">
+                <input name="Ime" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col h5">
+                Prezime
+            </div>
+            <div class="col">
+                <input name="Prezime" />
+            </div>
+        </div>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="poruka">
+            Niste unijeli sve potrebne vrijednosti!
+        </div>
+        <input type="submit" value="Snimi" class="btn btn-primary text-center" style="float:right; margin:30px 0;" />
+    </div>
+</form>
+<script>
+    function validateForm() {
+        var i = document.forms["myForm"]["Ime"].value;
+        var p = document.forms["myForm"]["Prezime"].value;
+
+        if ((i == null || i == 0) || (p == null || p == 0)) {
+            document.getElementById("poruka").style.display = "block";
+            return false;
+        }
+    }
+</script>

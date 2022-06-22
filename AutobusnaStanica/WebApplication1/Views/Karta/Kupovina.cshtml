@@ -1,0 +1,284 @@
+﻿@{
+    ViewData["Title"] = "Prikaz";
+    var brojac = 0;
+    var brojacKolicine = 0;
+    var brojacKolicine1 = 0;
+    var br = 0;
+}
+@model WebApplication1.Models.Karta.KartaKupovinaVM
+<style>
+    .error{
+        color:red
+    }
+</style>
+<div class="card" style="width:28rem">
+    <div class="card-header font-weight-bold">
+        Detalji o karti
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">
+                    Tip karte:
+                </div>
+                <div class="col">
+                    @Model.TipKarte
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">
+                    Na relaciji:
+                </div>
+                <div class="col">
+                    @Model.PolazisteNaziv -  @Model.DolazisteNaziv
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">
+                    Linija:
+                </div>
+                <div class="col">
+                    @Model.LinijaPolaziste
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">
+                    Za datum:
+                </div>
+                <div class="col">
+                    @Model.DatumPolaska
+                </div>
+            </div>
+        </li>
+        @if (Model.TipKarteID == 2)
+        {
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        Povratna linija:
+                    </div>
+                    <div class="col">
+                        @Model.LinijaDolaziste
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        Datum povratka:
+                    </div>
+                    <div class="col">
+                        @Model.DatumDolaska
+                    </div>
+                </div>
+            </li>
+        }
+        @foreach (var item in Model.popusti)
+        {
+            if (Model.kolicina[brojac] != 0)
+            {
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            @item
+                        </div>
+                        <div class="col">
+                            x @Model.kolicina[brojac]
+                        </div>
+                    </div>
+                </li>
+            }
+            brojac++;
+        }
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">
+                    Cijena:
+                </div>
+                <div class="col">
+                    @Model.Cijena KM
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div>
+    <div class="card" style="width: 28rem;margin:20px 0 20px 0">
+        <p class="card-header font-weight-bold">Sjedište</p>
+        <div class="card-body">
+            <p class="card-text">Mozete izabrati sjediste koje zelite!</p>
+        </div>
+    </div>
+</div>
+<div class="card" style="width: 28rem;margin:20px 0 20px 0">
+    <p class="card-header">
+        <span class="font-weight-bold">Plaćanje</span>
+        <button id="btnNovaKartica" class="btn btn-primary" onclick="otvoriFormuZaNovuKarticu()" style="display:none;float:right">Nova kartica+</button>
+        <button id="btnNazad" class="btn btn-primary" onclick="otvoriFormuSvihKartica()" style="float:right">Odaberi postojeću karticu</button>
+    </p>
+    <div class="card-body">
+        <p id="poruka" style="display:none">Nema spasenih kartica</p>
+
+        <form asp-action="Placanje" asp-controller="Karta" id="listaKartica" style="display:none">
+            <input hidden asp-for="PolazisteID" />
+            <input hidden asp-for="DolazisteID" />
+            <input hidden asp-for="TipKarteID" />
+            <input hidden asp-for="DatumPolaska" />
+            <input hidden asp-for="DatumDolaska" />
+            <input hidden asp-for="Cijena" />
+            <input hidden asp-for="CijenaBezPopusta" />
+            <input hidden asp-for="OznakaLinije" />
+            <input hidden asp-for="LinijaDolaziste" />
+            <input hidden asp-for="LinijaPolaziste" />
+            @foreach (var p in Model.popusti)
+            {
+                br = brojacKolicine++;
+                <input type="number" asp-for="kolicina[br]" hidden />
+            }
+
+            <div class="d-flex justify-content-center" style="margin-bottom:5px;">
+                <select asp-for="KarticeID" asp-items="@Model.Kartice" class="btn btn-secondary" style="height:35px;width:200px;margin:2px;"></select>
+                <input type="submit" class="btn btn-warning" value="Plati" style="margin-left:25px;height:40px;" />
+            </div>
+        </form>
+       
+
+        <form asp-action="Placanje" asp-controller="Karta" id="formaNovaKartica"
+              onsubmit="return validateFormPlacanje()" name="myFormPlacanje" method="post">
+            <input hidden asp-for="PolazisteID" />
+            <input hidden asp-for="DolazisteID" />
+            <input hidden asp-for="TipKarteID" />
+            <input hidden asp-for="KarticeID" />
+            <input hidden asp-for="DatumPolaska" />
+            <input hidden asp-for="DatumDolaska" />
+            <input hidden asp-for="LinijaDolaziste" />
+            <input hidden asp-for="LinijaPolaziste" />
+            <input hidden asp-for="Cijena" />
+            <input hidden asp-for="CijenaBezPopusta" />
+            <input hidden asp-for="OznakaLinije" />
+            @foreach (var p in Model.popusti)
+            {
+                br = brojacKolicine1++;
+                <input type="number" min="0" max="5" asp-for="kolicina[br]" hidden />
+            }
+            <div>
+                <label>Unesite broj kartice:</label>
+                <input type="text" placeholder="1234 5678 1234 5678" asp-for="BrojKarticeNova" name="BrojKarticeNova" required />
+            </div>
+            <div>
+                <label>Unesite ime vlasnika kartice:</label>
+                <input type="text" placeholder="IME PREZIME" asp-for="ImeVlasnikaNova" name="ImeVlasnikaNova" required />
+            </div>
+            <div>
+                <label>Unesite verifikacijski kod:</label>
+                <input type="text" placeholder="111" asp-for="VerKodNova" name="VerKodNova" required />
+            </div>
+            <div>
+                <label>Unesite datum isteka:</label>
+                <input type="text" placeholder="11/11" asp-for="DatumIstekaNova" name="DatumIstekaNova" required />
+            </div>
+            <div class="d-flex justify-content-end">
+                <label>Spasi karticu</label>
+                <input type="checkbox" asp-for="SpasiKarticu" style="margin:3px;" />
+            </div>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="porukaZaKarticu">
+                Unesene vrijednosti nisu ispravne!
+            </div>
+            <div class="d-flex justify-content-center">
+                <input class="btn btn-warning" type="submit" value="Plati" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function otvoriFormuZaNovuKarticu() {
+        document.getElementById("formaNovaKartica").style.display = "block";
+        document.getElementById("btnNovaKartica").style.display = "none";
+        document.getElementById("listaKartica").style.display = "none";
+        document.getElementById("btnNazad").style.display = "block";
+        document.getElementById("poruka").style.display = "none";
+    }
+    function otvoriFormuSvihKartica() {
+        if (@Model.Kartice.Count() > 0)
+        {
+            document.getElementById("listaKartica").style.display = "block";
+        }
+        else
+        {
+            document.getElementById("poruka").style.display = "block";
+            document.getElementById("listaKartica").style.display = "none";
+        }
+        document.getElementById("btnNovaKartica").style.display = "block";
+        document.getElementById("formaNovaKartica").style.display = "none";
+        document.getElementById("btnNazad").style.display = "none";
+    }
+
+    function validateFormPlacanje() {
+
+        var brojK = new RegExp('^([0-9]{4})(\\s)([0-9]{4})(\\s)([0-9]{4})(\\s)([0-9]{4})$');
+        var brojK1 = new RegExp('^[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}$');
+        var verK = new RegExp('^([0-9]{3})$');
+        var datum = new RegExp('^([0-9]{2}\/[0-9]{2})$');
+        var bk = document.forms["myFormPlacanje"]["BrojKarticeNova"].value;
+      
+        if (brojK.test(bk) || brojK1.test(bk))
+            if (verK.test(document.forms["myFormPlacanje"]["VerKodNova"].value))
+                if (datum.test(document.forms["myFormPlacanje"]["DatumIstekaNova"].value) &&
+                    parseInt((document.forms["myFormPlacanje"]["DatumIstekaNova"].value).substr(0, 2)) < 13 &&
+                    parseInt((document.forms["myFormPlacanje"]["DatumIstekaNova"].value).substr(3, 5)) > 21) {
+                    document.getElementById("porukaZaKarticu").style.display = "none";
+                    return true;
+                }
+        document.getElementById("porukaZaKarticu").style.display = "block";
+        return false;
+    }
+    
+    $("#formaNovaKartica").validate({
+        rules: {
+            BrojKarticeNova: {
+                required: true,
+                maxlength: 19
+            },
+            ImeVlasnikaNova: {
+                required: true,
+                maxlength: 50,
+            },
+            VerKodNova: {
+                required: true,
+                min: 100,
+                maxlength: 3,
+            },
+            DatumIstekaNova: {
+                required: true,
+                maxlength: 5,
+            }
+        },
+        messages: {
+            BrojKarticeNova: {
+                required: "Niste unijeli broj kartice",
+                maxlength: "duzina broja nije ok",
+            },
+            ImeVlasnikaNova: {
+                required: "Niste unijeli ime vlasnika kartice.",
+                maxlength: "max duzina 50",
+            },
+            VerKodNova: {
+                required: "Niste unijeli verifikacijski kod",
+                maxlength: "max duzina 3",
+                min: "min vrijednost 100",
+            },
+            DatumIstekaNova: {
+                required: "Niste unijeli datum",
+                maxlength: "max duzina 50",
+            },
+        }
+    });
+</script>

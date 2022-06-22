@@ -1,0 +1,83 @@
+﻿
+@using WebApplication1.Models.Menadzer
+@model VozacUrediVM.Row
+@{ 
+    Layout = null;
+}
+
+<form asp-action="VozacSnimi" asp-controller="Menadzer" onsubmit="return validateForm()" name="myForm" method="post">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Uredi</h3>
+            </div>
+            <div class="modal-body">
+                <input hidden readonly asp-for="VozacID" />
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <label>Ime</label>
+                        </div>
+                        <div class="col">
+                            <input asp-for="Ime" name="Ime" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Prezime</label>
+                        </div>
+                        <div class="col">
+                            <input asp-for="Prezime" name="Prezime" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Broj Vozacke</label>
+                        </div>
+                        <div class="col">
+                            <input asp-for="BrojVozacke" name="BrojVozacke" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Datum rođenja:</label>
+                        </div>
+                        <div class="col">
+                            <input type="date" asp-for="@Model.DatumRodjenja" name="DatumRodjenja" />
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Datum zaposlenja</label>
+                        </div>
+                        <div class="col">
+                            <input type="date" asp-for="@Model.DatumZaposlenja" name="DatumZaposlenja" />
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="poruka">
+                    Niste unijeli sve potrebne vrijednosti!
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" value="Odustani" onClick="document.location.reload(true)" class="btn btn-warning">
+                <input type="submit" name="Snimi" value="Sačuvaj" class="btn btn-primary"/>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    function validateForm() {
+        var ime = document.forms["myForm"]["Ime"].value;
+        var prezime = document.forms["myForm"]["Prezime"].value;
+        var brVozacke = document.forms["myForm"]["BrojVozacke"].value;
+        var datR = document.forms["myForm"]["DatumRodjenja"].value;
+        var datZ = document.forms["myForm"]["DatumZaposlenja"].value;
+
+        if ((ime == null || ime == 0) || (prezime == null || prezime == 0) || (brVozacke == null || brVozacke == 0) ||
+            (datR == null || datR == 0) || (datZ == null || datZ == 0)) {
+            document.getElementById("poruka").style.display = "block";
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewData["Title"] = "KupljeneKarte";
+}
+@model WebApplication1.Models.Karta.KupljeneKarteVM
+<h1>KupljeneKarte</h1>
+<table class="table table-bordered">
+    <thead style="background-color:whitesmoke">
+        <tr>
+            <td>Tip karte</td>
+            <td>Vrsta Popusta</td>
+            <td>Od-do</td>
+            <td>Od-do</td>
+            <td>Linija</td>
+            <td>Datum Kupovine</td>
+            <td>Cijena</td>
+            <td>Akcija</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var k in Model.redovi)
+        {
+            <tr>
+                <td>@k.TipKarte</td>
+                <td>@k.VrstaPopusta</td>
+                <td>
+                    @k.PolazisteNaziv-@k.DolazisteNaziv<br />
+                    @if (k.DatumDolaska != null)
+                    {
+                        @k.DolazisteNaziv<span>-</span>@k.PolazisteNaziv
+                    }
+                </td>
+                <td>@k.DatumPolaska<br />@k.DatumDolaska</td>
+                <td style="width:18%">@k.OznakaLinije</td>
+                <td >@k.DatumKupovineKarte</td>
+                <td>@k.Cijena KM</td>
+                <td>
+                    @if (k.IsAktivna)
+                    {
+                        <a class="btn btn-danger" href="/Karta/OtkaziKartu?KartaID=@k.KartaID">Otkazi</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" href="/Karta/OtkaziKartu?KartaID=@k.KartaID">Obrisi iz historije</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

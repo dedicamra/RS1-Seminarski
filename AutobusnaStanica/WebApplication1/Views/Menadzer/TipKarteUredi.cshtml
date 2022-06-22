@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Uredi";
+    Layout = null;
+}
+@model WebApplication1.Models.TipKarte.TipKarteUrediVM
+
+<form asp-action="TipKarteSnimi" asp-controller="Menadzer"  onsubmit="return validateForm()" name="myForm" method="post">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Uredi</h3>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input hidden readonly asp-for="TipKarteID" />
+                    <input hidden readonly asp-for="IsAktivan" />
+                </div>
+                <div>
+                    <label>Naziv</label>
+                    <input asp-for="Naziv" name="Naziv" />
+                </div>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="poruka">
+                    Niste unijeli sve potrebne vrijednosti!
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" value="Odustani" onClick="document.location.reload(true)" class="btn btn-warning">
+                <input type="submit" name="Snimi" value="Sačuvaj" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    function validateForm() {
+        var n = document.forms["myForm"]["Naziv"].value;
+
+        if ((n == null || n == 0)) {
+            document.getElementById("poruka").style.display = "block";
+            return false;
+        }
+    }
+</script>

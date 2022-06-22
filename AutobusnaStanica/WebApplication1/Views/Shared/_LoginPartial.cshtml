@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Podaci.Klase
+@using WebApplication1.Helper
+@inject SignInManager<Korisnik> SignInManager
+@inject UserManager<Korisnik> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User) || Context.GetLogiraniKorisnik() != null)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Zdravo @User.Identity.Name @Context.GetLogiraniKorisnik().Email!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post" asp-route-returnUrl="@Url.Page("/Account/Logout", new { area = "Identity" })">
+                @*@Url.Action("Index", "Home", new { area = "" })*@
+                <button type="submit" class="nav-link btn btn-link text-light">Odjava</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Registracija</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">Prijava</a>
+        </li>
+    }
+</ul>

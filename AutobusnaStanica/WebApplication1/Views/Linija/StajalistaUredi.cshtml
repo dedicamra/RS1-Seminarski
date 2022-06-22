@@ -1,0 +1,40 @@
+﻿@model WebApplication1.Models.Linija.StajalisteUrediVM
+@{ Layout = null;}
+
+<form asp-action="StajalistaSnimi" asp-controller="Linija">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Uredi</h1>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input hidden readonly asp-for="StajaistaID" />
+                    <input hidden readonly asp-for="LinijaID" />
+                    <input hidden readonly asp-for="_linijaID"/>
+                </div>
+                <div>
+                    <label>Grad:</label>
+                    <select asp-for="GradID" asp-items="@Model.Gradovi"></select>
+
+
+                </div>
+                <div>
+                    <label>Planirani sati stizanja:</label>
+                    <input asp-for="SatnicaStizanja">
+
+                </div>
+
+                <div>
+                    <label class="cb">Redni broj stajalista</label>
+                    <input asp-for="RedniBrojStajalista" />
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input class="btn btn-warning" type="button" value="Odustani" onClick="document.location.reload(true)">
+                <input type="submit" class="btn btn-success" name="Snimi" value="Sačuvaj" />
+            </div>
+        </div>
+    </div>
+</form>

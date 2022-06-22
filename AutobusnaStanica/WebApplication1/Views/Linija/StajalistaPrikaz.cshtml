@@ -1,0 +1,72 @@
+﻿
+@using WebApplication1.Models.Linija
+@model StajalistePrikazVM
+
+<style>
+   
+</style>
+
+<div class="modal-header">
+    <h1>Stajalista linije </h1>
+</div>
+<button class="btn btn-info" data-toggle="modal" data-target="#ajaxPrikaz"
+            onclick="StajalisteUredi(@Model._linijaID, 0)"  style="margin:10px 0px">Dodaj stajaliste</button>
+<a ></a>
+<div class="modal-body">
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                @*<th>LinijaID</th>*@
+                <th>Grad</th>
+                <th>Planirani sati stizanja</th>
+                <th>Redni broj stajalista</th>
+                <th>Akcija</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var s in Model.Stajalista)
+            {
+                <tr>
+                    @*<td>@s.LinijaID</td>*@
+                    <td>@s.Grad</td>
+                    <td>@s.SatnicaStizanja</td>
+                    <td>@s.RedniBrojStajalista.</td>
+                    <td>
+                        <button class="btn btn-info" data-toggle="modal" data-target="#ajaxPrikaz"
+                                onclick="StajalisteUredi(@s.LinijaID,@s.StajaistaID)">
+                            Uredi
+                        </button>
+                        <a class="btn btn-warning" href="/Linija/StajalistaObrisi?LinijaID=@s.LinijaID&StajalisteID=@s.StajaistaID">Obrisi</a>
+
+                    </td>
+                </tr>
+
+            }
+
+        </tbody>
+    </table>
+
+    <a style="width:15%" class="btn btn-secondary" href="/Linija/LinijaPrikaz">Nazad</a>
+</div>
+
+<div class="modal fade" id="ajaxPrikaz" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+</div>
+
+<script>
+    function StajalisteUredi(LinijaID,StajalisteID) {
+        if (StajalisteID == 0) {
+            $.get("/Linija/StajalistaUredi?LinijaID=" + LinijaID, function (data) {
+                $("#ajaxPrikaz").html(data);
+
+            })
+        }
+        else {
+            $.get("/Linija/StajalistaUredi?LinijaID=" + LinijaID+"&StajalisteID= " + StajalisteID, function (data) {
+                $("#ajaxPrikaz").html(data);
+            });
+        }
+    }
+</script>

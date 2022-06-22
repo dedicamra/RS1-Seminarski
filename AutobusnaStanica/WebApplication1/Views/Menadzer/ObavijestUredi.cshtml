@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewData["Title"] = "Uredi";
+}
+
+<h1 class="col text-center">Uredi/Dodaj obavijest</h1>
+@model WebApplication1.Models.Menadzer.ObavijestUrediVM
+
+<form method="post" enctype="multipart/form-data" asp-action="ObavijestSnimi" asp-controller="Menadzer" onsubmit="return validateForm()" name="myForm">
+    <input hidden readonly asp-for="ObavijestID" /><br />
+    <div class="container">
+        <div class="row form-group">
+            <div class="col">
+                <label class="font-weight-bold">Kategorija obavijesti: </label>
+            </div>
+            <div class="col-10">
+                <select asp-for="KategorijaID" asp-items="@Model.Kategorije" ></select><br />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col">
+                <label asp-for="Naslov" class="control-label font-weight-bold"></label>
+            </div>
+            <div class="col-10">
+                <input class="form-control" asp-for="Naslov" style="width:100%" name="Naslov" /><br />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col">
+                <label asp-for="Podnaslov" class="control-label font-weight-bold"></label>
+            </div>
+            <div class="col-10">
+                <input asp-for="Podnaslov" style="width:100%" name="Podnaslov" /><br />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col">
+                <label asp-for="Opis" class="control-label font-weight-bold"></label>
+            </div>
+            <div class="col-10">
+                <textarea asp-for="Opis" style="width:100%; height:200px" name="Opis">
+                </textarea>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col">
+                <label class="font-weight-bold">Odaberi sliku</label>
+            </div>
+            <div class="col-10">
+                @if (!string.IsNullOrEmpty(Model.Slika))
+                {
+                    <img src="@Model.Slika" style="max-width:100px; max-height:100px" />
+                }
+                <input type="file" name="file" id="file" />
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="form-group col text-right">
+        <label class="font-italic" style="margin-right:10px;">Datum objave:</label>
+        <input readonly asp-for="DatumObjave" style="border:0" /><br />
+    </div>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="poruka">
+        Niste unijeli sve potrebne vrijednosti!
+    </div>
+    <div class="row">
+        <div style="display:inline" class="text-left col">
+            <a class="btn btn-warning" href="/Menadzer/ObavijestPrikaz">Odustani</a>
+        </div>
+        <div style="display:inline" class="text-right col">
+            <input class="btn btn-primary" type="submit" value="Snimi" />
+        </div>
+    </div>
+</form>
+<div class="modal fade" id="ajaxPrikaz" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+</div>
+<script>
+    function PrikazUredi() {
+
+        $.get("/Menadzer/ObavijestKategorijaUredi", function (data) {
+                $("#ajaxPrikaz").html(data);
+            })
+    }
+    function validateForm() {
+        var naslov = document.forms["myForm"]["Naslov"].value;
+        var podnaslov = document.forms["myForm"]["Podnaslov"].value;
+        var opis = document.forms["myForm"]["Opis"].value;
+
+        if ((naslov == null || naslov == 0) || (podnaslov == null || podnaslov == 0) ||
+            (opis == null || opis == 0) ) {
+            document.getElementById("poruka").style.display = "block";
+            return false;
+        }
+    }
+</script>

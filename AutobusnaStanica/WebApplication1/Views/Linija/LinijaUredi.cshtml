@@ -1,0 +1,91 @@
+﻿@model WebApplication1.Models.Linija.LinijaUrediVM
+
+@*@{ Layout = null;}*@
+
+
+
+<style>
+    div{
+        margin-bottom: 10px;
+    }
+    label{
+        margin-right:10px;
+        width: 15%;
+    }
+    .glavne{
+        font-weight:bold;
+
+    }
+    .cb{
+        margin-left:20px;
+        width:15%;
+    }
+    input, select, a{
+        width:20%;
+        margin-right:16px;
+    }
+    .obicni{
+        height:32px;
+
+    }
+</style>
+<form asp-action="LinijaSnimi" asp-controller="Linija">
+      <input hidden class="obicni" asp-for="DaniUSedmici" />
+            <div class="modal-header">
+                <h1>Uredi</h1>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input hidden readonly asp-for="LinijaID" />
+                    <label class="glavne">Oznaka linije:</label><input class="obicni" asp-for="OznakaLinije" />
+                    <label class="glavne">Dodijeli vozilo:</label> 
+                    <select class="obicni" asp-for="VoziloId" asp-items="@Model.Vozila"></select>
+                </div>
+                <div>
+                    <label class="glavne">Grad polaska:</label>
+                    <select class="obicni" asp-for="GradPolaskaGradID" asp-items="@Model.Gradovi"></select>
+                    <label class="glavne">Vrijeme polaska:</label>
+                    <input class="obicni" asp-for="VrijemePolaska" />
+
+                </div>
+                <div >
+                    <label class="glavne">Grad dolaska:</label>
+                    <select class="obicni" asp-for="GradDolaskaGradID" asp-items="@Model.Gradovi"></select>
+                    <label class="glavne">Vrijeme dolaska:</label>
+                    <input class="obicni" asp-for="VrijemeDolaska" />
+                </div>
+                <!--<div>-->
+                   @* <a class="btn btn-info" href="/Stajalista/Prikaz?LinijaID=@Model.LinijaID"/>Stajalista</a>*@
+                    <!--<div id="ajaxPrikaz"></div>
+                </div>-->
+                <div>
+                    <label class="glavne">Dani kojim linija vozi: </label><br />
+                    <label class="cb">Ponedjeljak</label><input type="checkbox" asp-for="Ponedjeljak" /><br>
+                    <label class="cb">Utorak</label><input type="checkbox" asp-for="Utorak" />          <br>
+                    <label class="cb">Srijeda</label><input type="checkbox" asp-for="Srijeda" />        <br>
+                    <label class="cb">Cetvrtak</label><input type="checkbox" asp-for="Cetvrtak" />      <br>
+                    <label class="cb">Petak</label><input type="checkbox" asp-for="Petak" />            <br>
+                    <label class="cb">Subota</label><input type="checkbox" asp-for="Subota" />          <br>
+                    <label class="cb">Nedjelja</label><input type="checkbox" asp-for="Nedjelja" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-warning" href="/Linija/LinijaPrikaz">Odustani</a>
+                <input type="submit" class="btn btn-success" name="Snimi" value="Sačuvaj" />
+            </div>
+      
+</form>
+
+<script>
+    //function PrikazStajalista(LinijaID) {
+    //    if (LinijaID == 0) {
+    //        $.get("/Stajaliste/Prikaz", function (data) {
+    //            $("#ajaxPrikaz").html(data);
+    //        })
+    //    } else {
+    //        $.get("/Stajaliste/Prikaz?LinijaID=" + LinijaID, function (data) {
+    //            $("#ajaxPrikaz").html(data);
+    //        })
+    //    }
+    //}
+</script>

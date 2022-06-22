@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+@using WebApplication1.Helper
+
+@if (Context.GetLogiraniKorisnik() != null && Context.ProvjeriKorisnika(Context.GetLogiraniKorisnik().Id))
+{
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Autobusna stanica</title>
+        <link href="~/dist/css/styles.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-light " style="background-color:rgb(145, 194, 246)">
+            <a class="navbar-brand text-dark" href="/Home/Index">Autobusna stanica</a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <!-- Navbar-->
+            <ul class="navbar-nav d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" style="color:white" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style="color:white" class="fas fa-user fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Postavke</a>
+                        <div class="dropdown-divider"></div>
+                        <form class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Odjava</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion text-light " id="sidenavAccordion" style="background-color:#616161">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav text-light">
+                            <div class="sb-sidenav-menu-heading">Upravljanje</div>
+                            <a class="nav-link collapsed text-light" href="/Linija/LinijaPrikaz" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon "><i class="fas fa-calendar-alt"></i></div>
+                                Linije
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link text-light" href="/Linija/LinijaPrikaz">Raspored</a>
+                                    <a class="nav-link text-light" href="/Linija/GradPrikaz">Grad</a>
+                                    <a class="nav-link text-light" href="/Linija/DrzavaPrikaz">Drzava</a>
+                                    <a class="nav-link text-light" href="/Cijena/Prikaz">Cijene</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link text-light" href="https://angular.p2057.app.fit.ba/crud/prikaz-vozila">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bus"></i></div>
+                                Vozilo
+                            </a>
+
+                            
+
+
+                            <a class="nav-link text-light" href="/Menadzer/VozacPrikaz">
+                                <div class="sb-nav-link-icon"><i class="fa fa-users"></i></div>
+                                Vozaci
+                            </a>
+
+                            <a class="nav-link collapsed text-light" href="/Menadzer/ObavijestPrikaz" data-toggle="collapse" data-target="#collapseLayouts1" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fa fa-bell"></i></div>
+                                Obavijesti
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts1" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link text-light" href="/Menadzer/ObavijestPrikaz">Obavijest</a>
+                                    <a class="nav-link text-light" href="/Menadzer/ObavijestKategorijaPrikaz">Obavijest Kategorije</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link text-light" href="/Menadzer/Izvjestaj">
+                                <div class="sb-nav-link-icon"><i class="far fa-file-alt"></i></div>
+                                Izvjestaj o prometu
+                            </a>
+                            <a class="nav-link text-light" href="/Menadzer/FeedbackPrikaz">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Feedback korisnika
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Karte</div>
+                            <a class="nav-link text-light" href="/Menadzer/TipKartePrikaz">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Tip Karte
+                            </a>
+                            <a class="nav-link text-light" href="/Menadzer/VrstaPopustaPrikaz">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Vrsta Popusta
+                            </a>
+                            <a class="nav-link text-light" href="/Menadzer/KupljeneKarte">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Kupljene karte
+                            </a>
+
+                            @if (Context.GetLogiraniKorisnik().Id == "703e57af-e99b-4510-8af4-e3e080fa21a9")
+                            {
+                                <div class="sb-sidenav-menu-heading">Dodaj menadzera</div>
+                                <a class="nav-link text-light" href="/Home/DodajMenadzera">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Dodaj menadzera
+                                </a>
+                            }
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        <span style="color:white">@User.Identity.Name @Context.GetLogiraniKorisnik().Email!</span>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <div class="container">
+                    <main role="main" class="pb-3" style="padding:20px">
+                        @RenderBody()
+                    </main>
+                </div>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                            @*<div>
+                                    <a href="#">Privacy Policy</a>
+                                    &middot;
+                                    <a href="#">Terms &amp; Conditions</a>
+                                </div>*@
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+        @*<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>*@
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="~/dist/js/scripts.js"></script>
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>*@
+        @*<script src="~/dist/assets/demo/chart-area-demo.js"></script>*@
+        @*<script src="~/dist/assets/demo/chart-bar-demo.js"></script>*@
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script src="~/dist/assets/demo/datatables-demo.js"></script>
+        @RenderSection("Scripts", required: false)
+
+    </body>
+</html>
+
+}
+else
+{
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3" style="background-color:rgb(145, 194, 246)">
+            <div class="container">
+                <a class="navbar-brand text-light font-weight-bolder" asp-area="" asp-controller="Home" asp-action="Index">Autobusna stanica</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    @if (AutentifikacijaMVC.currentUserId != "" && Context.GetLogiraniKorisnik() != null)
+                    {
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-light font-weight-bolder" asp-area="" asp-controller="Izvjestaj" asp-action="RedVoznje">Red voznje</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light font-weight-bolder" asp-area="" asp-controller="Karta" asp-action="Prikaz">Kupi kartu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light font-weight-bolder" asp-area="" asp-controller="Karta" asp-action="KupljeneKarte">Historija</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light font-weight-bolder" href="https://p2057.app.fit.ba/crud/prikaz-kartica">Kreditne kartice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light font-weight-bolder" asp-area="" asp-controller="Feedback" asp-action="Prikaz">Feedback</a>
+                    </li>
+                </ul>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021  @*<a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>*@
+        </div>
+    </footer>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+}

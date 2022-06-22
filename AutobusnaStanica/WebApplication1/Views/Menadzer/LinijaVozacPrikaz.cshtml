@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "LinijaVozacPrikaz";
+}
+@model WebApplication1.Models.Menadzer.LinijaVozacPrikazVM
+    <h1>Vozaci na liniji @Model.NazivLinije</h1>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikaz"
+        onclick="LinijaVozacDodaj(@Model.LinijaID)" style="margin:20px 0 15px 0">
+    Dodaj novog vozaca
+</button>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>Ime prezime</td>
+            <td>Akcija</td>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var v in Model.redovi)
+        {
+            <tr>
+                <td>@v.ImePrezime</td>
+                <td>
+                    <a class="btn btn-outline-warning" href="/Menadzer/LinijaVozacUkloni?LinijaID=@Model.LinijaID&VozacID=@v.VozacID">Ukloni sa linije</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a style="width:15%" class="btn btn-secondary" href="/Linija/LinijaPrikaz">Nazad</a>
+
+<div class="modal fade" id="ajaxPrikaz" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+</div>
+<script>
+    function LinijaVozacDodaj(LinijaID) {
+        $.get("/Menadzer/LinijaVozacDodaj?LinijaID=" + LinijaID, function (data) {
+            $("#ajaxPrikaz").html(data);
+        })
+    }
+</script>

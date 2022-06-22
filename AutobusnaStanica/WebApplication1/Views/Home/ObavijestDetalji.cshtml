@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "ObavijestDetalji";
+    Layout = null;
+}
+@model WebApplication1.Models.Menadzer.ObavijestPrikazVM.Row
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div>
+                <h3>@Model.Naslov</h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div>
+                <img src="@Model.Slika" class="card-img-top" style="height:280px; width:auto; display:flex;margin:auto;" alt="...">
+            </div>
+            <div>
+                <h5 class="card-title font-italic" style="font-size:14px;">@Model.ObavijestKategorija</h5>
+                <p class="card-text">@Model.Opis</p>
+            </div>
+            <p class="card-title font-italic text-center" style="font-size:14px;margin-top:10px;">@Model.DatumObjave</p>
+        </div>
+        <div class="modal-footer">
+            <input type="button" value="Nazad" onClick="document.location.reload(true)" class="btn btn-warning">
+        </div>
+    </div>
+</div>
+

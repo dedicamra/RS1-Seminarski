@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model WebApplication1.Models.Menadzer.IzvjestajRequest
+
+<form asp-controller="Izvjestaj" asp-action="IzvjestajPrikaz">
+    <h5>Odabredite vremenski period</h5> <br />
+
+    <input asp-for="IspravanInput" hidden />
+    
+    @if (Model.IspravanInput == false)
+    {
+        <p style="color: indianred">Datum od treba da bude manji ili jednak datumu do kojeg želite preuzeti podatke . Ispravno unesite raspon datuma!</p>
+    }
+
+    <label style="margin-right: 10px">Od: </label><input type="date" asp-for="DatumOd" /> <br />
+    <label style="margin-right: 10px">Do: </label><input type="date" asp-for="DatumDo" /><br /><br />
+
+    <input type="submit" class="btn btn-success" value="Kreiraj izvještaj"/>
+</form>
+

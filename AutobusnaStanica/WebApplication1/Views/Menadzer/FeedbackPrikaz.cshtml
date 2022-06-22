@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model WebApplication1.Models.Feedback.FeedbackPrikazVM
+@foreach (var f in Model.feedbacks)
+{
+    <div class="card">
+        <div class="card-header">
+
+            <h5>Korisnik: @f.KupacIme @f.KupacPrezime</h5> <h5 style="color:cadetblue" class="card-title">@f.DatumKreiranja </h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text">@f.Sadrzaj</p>
+
+            
+        </div>
+    </div>
+    <br />
+}

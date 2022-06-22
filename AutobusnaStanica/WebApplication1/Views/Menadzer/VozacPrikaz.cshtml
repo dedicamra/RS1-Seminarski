@@ -1,0 +1,63 @@
+﻿
+
+@model WebApplication1.Models.Menadzer.VozacPrikazVM
+
+<h1>Prikaz</h1>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikaz"
+        onclick="VozacUredi()">
+    Dodaj
+</button>
+<form style="margin:20px 0px">
+    <input name="pretraga" value="@Model.Pretraga" />
+    <input type="submit" value="Pretraga(Ime Prezime)" />
+</form>
+
+<table class=" table table-bordered">
+    <thead style="background-color:whitesmoke">
+        <tr>
+            <td>Ime Prezime</td>
+            <td>Broj Vozacke</td>
+            <td>Datum Rodjenja</td>
+            <td>Datum Zaposlenja</td>
+            <td>Akcija</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (WebApplication1.Models.Menadzer.VozacPrikazVM.Row v in Model.Vozaci)
+        {
+            <tr>
+                <td>@v.Ime  @v.Prezime</td>
+                <td>@v.BrojVozacke</td>
+                <td>@v.DatumRodjenja</td>
+                <td>@v.DatumZaposlenja</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#ajaxPrikaz"
+                            onclick="VozacUredi(@v.VozacID)">
+                        Uredi
+                    </button>
+                    <a href="/Menadzer/VozacObrisi?VozacID=@v.VozacID" class="btn btn-outline-warning">Obrisi</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="ajaxPrikaz" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+</div>
+<script>
+    function VozacUredi(VozacID) {
+
+        if (VozacID == 0) {
+            $.get("/Menadzer/VozacUredi", function (d) {
+                $("#ajaxPrikaz").html(d);
+            });
+        }
+        else {
+            $.get("/Menadzer/VozacUredi?VozacID=" + VozacID, function (d) {
+                $("#ajaxPrikaz").html(d);
+            });
+        }
+    }
+</script>

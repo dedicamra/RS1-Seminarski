@@ -1,0 +1,48 @@
+﻿@using WebApplication1.Models.Cijena
+@model CijenaUrediVM
+
+@{ Layout = null;}
+
+<style>
+    .form-control{
+        display:inline;
+        width:auto;
+    }
+</style>
+
+<form asp-action="Snimi" asp-controller="Cijena">
+
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Uredi</h1>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input hidden readonly asp-for="CijenaID" />
+                </div>
+                <div>
+                    <label>Lokacija 1:</label>
+                    <select asp-for="GradPolaskaGradID" asp-items="Model.Gradovi" class="form-control"></select>
+                </div>
+                <div>
+                    <label>Lokacija 2:</label>
+                    <select asp-for="GradDolaskaGradID" asp-items="Model.Gradovi" class="form-control"></select>
+                </div>
+                <div>
+                    <label>Jednosmijerna karta (BAM): </label>
+                    <input asp-for="JednosmijernaKartaCijena" class="form-control" />
+                </div>
+                <div>
+                    <label>Povratna karta (BAM)</label>
+                    <input asp-for="PovratnaKartaCijena" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-warning" value="Odustani" onClick="document.location.reload(true)">
+                <input type="submit" class="btn btn-success" name="Snimi" value="Sačuvaj" />
+            </div>
+        </div>
+    </div>
+</form>

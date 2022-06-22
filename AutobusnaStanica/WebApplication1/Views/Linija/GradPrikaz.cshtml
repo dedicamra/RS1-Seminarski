@@ -1,0 +1,89 @@
+﻿@model WebApplication1.Models.Linija.GradPrikazVM
+
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikaz"
+            onclick="PrikazUredi(0)">
+        Dodaj
+    </button>
+    @*<button type="button" onclick="PrikazDodaj()" class="btn btn-primary" style="margin-bottom:10px">Dodaj</button>*@
+    <form>
+        <input name="pretraga" value="@Model.pretraga" />
+        <input type="submit" value="Trazi" />
+    </form>
+    @*<div id="ajaxPrikaz"></div>*@
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Drzava</th>
+                <th>Grad</th>
+                <th>Akcija</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var d in Model.Gradovi)
+            {
+            <tr>
+                <td>@d.Drzava</td>
+                <td>@d.Naziv</td>
+                <td>
+                    <button type="button" , class="btn btn-primary" data-toggle="modal" data-target="#ajaxPrikaz"
+                            onclick="PrikazUredi(@d.GradID)">
+                        Uredi
+                    </button>
+                    <a class="btn btn-warning" href="/Linija/GradObrisi?GradID=@d.GradID">Obrisi</a>
+                </td>
+
+                
+            </tr>
+            }
+        </tbody>
+
+    </table>
+    <div class="modal fade" id="ajaxPrikaz" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        
+    </div>
+
+
+    <script>
+        //function PrikazUredi(GradID) {
+
+        //    var url;
+        //    if (GradID == 0) {
+        //        url = "/Grad/Uredi?GradID=" + GradID;
+        //    }
+        //    else {
+        //        url = "/Grad/Uredi";
+        //    }
+        //    $.get(url, function (data) {
+        //        $("#ajaxPrikaz").html(data);
+        //    })
+
+        //}
+        function PrikazUredi(GradID) {
+            if (GradID == 0) {
+                $.get("/Linija/GradUredi", function (data) {
+                    $("#ajaxPrikaz").html(data);
+
+                })
+            }
+            else {
+                $.get("/Linija/GradUredi?GradID=" + GradID, function (data) {
+                    $("#ajaxPrikaz").html(data);
+                });
+            }
+        }
+        //function PrikazDodaj() {
+        //    var url = "/Drzava/Uredi";
+        //    $.get(url, function (data) {
+        //        $("#ajaxPrikaz").html(data);
+        //    })
+        //    document.getElementById("ajaxPrikaz").style.margin = "10px";
+
+
+        //}
+
+
+    </script>
